@@ -16,6 +16,7 @@ class Proyecto{
     public $id_categoria;
     public $nombre_categoria;
     public $id_usuario;
+    public $username_usuario;
 
     //constructor with $db as database connection
     public function __construct($db){
@@ -26,8 +27,9 @@ class Proyecto{
     function getAll(){
         //select all query
         $query = "SELECT p.id, p.titulo, p.objeto, p.fundamento, p.beneficio, p.departamento, p.estado, (CASE p.estado WHEN '1' THEN 'ACTIVO'
-                    WHEN '0' THEN 'INACTIVO' END) AS valor_estado, p.fecha_creacion, c.id AS id_categoria, c.nombre AS nombre_categoria
-                    FROM ". $this->table_name ." p INNER JOIN categoria c ON p.id_categoria = c.id ORDER BY p.fecha_creacion DESC";
+                    WHEN '0' THEN 'INACTIVO' END) AS valor_estado, p.fecha_creacion, c.id AS id_categoria, c.nombre AS nombre_categoria, u.id
+                    AS id_usuario, u.username AS username_usuario FROM ". $this->table_name ." p INNER JOIN categoria c ON p.id_categoria =
+                    c.id INNER JOIN usuario u ON u.id = p.id_usuario ORDER BY p.fecha_creacion DESC";
         
         //prepare query statement
         $stmt = $this->conn->prepare($query);
@@ -81,8 +83,9 @@ class Proyecto{
     function getById(){
         //query to read single law project
         $query = "SELECT p.id, p.titulo, p.objeto, p.fundamento, p.beneficio, p.departamento, p.estado, (CASE p.estado WHEN '1' THEN 'ACTIVO'
-        WHEN '0' THEN 'INACTIVO' END) AS valor_estado, p.fecha_creacion, c.id AS id_categoria, c.nombre AS nombre_categoria
-        FROM ". $this->table_name ." p INNER JOIN categoria c ON p.id_categoria = c.id ORDER BY p.fecha_creacion DESC AND p.id = ? LIMIT 0,1";
+        WHEN '0' THEN 'INACTIVO' END) AS valor_estado, p.fecha_creacion, c.id AS id_categoria, c.nombre AS nombre_categoria, u.id AS id_usuario,
+        u.username AS username_usuario FROM ". $this->table_name ." p INNER JOIN categoria c ON p.id_categoria = c.id INNER JOIN usuario u
+        ON u.id = p.id_usuario AND p.id = ? ORDER BY p.fecha_creacion DESC LIMIT 0,1";
 
         //prepare query statement
         $stmt = $this->conn->prepare($query);
@@ -107,13 +110,14 @@ class Proyecto{
         $this->fecha_creacion = $row['fecha_creacion'];
         $this->id_categoria = $row['id_categoria'];
         $this->nombre_categoria = $row['nombre_categoria'];
+        $this->id_usuario = $row['id_usuario'];
+        $this->username_usuario = $row['username_usuario'];
     }
 
     function update(){
         //update query
         $query = "UPDATE ".$this->table_name." SET titulo=:titulo, objeto=:objeto, fundamento=:fundamento, beneficio=:beneficio,
-                    departamento=:departamento, estado=:estado, fecha_creacion=:fecha_creacion, id_categoria=:id_categoria,
-                    id_usuario=:id_usuario";
+                    departamento=:departamento, id_categoria=:id_categoria, id_usuario=:id_usuario WHERE id=:id";
         
         //prepare query statement
         $stmt = $this->conn->prepare($query);
@@ -124,10 +128,9 @@ class Proyecto{
         $this->fundamento = htmlspecialchars(strip_tags($this->fundamento));
         $this->beneficio = htmlspecialchars(strip_tags($this->beneficio));
         $this->departamento = htmlspecialchars(strip_tags($this->departamento));
-        $this->estado = htmlspecialchars(strip_tags($this->estado));
-        $this->fecha_creacion = htmlspecialchars(strip_tags($this->fecha_creacion));
         $this->id_categoria = htmlspecialchars(strip_tags($this->id_categoria));
         $this->id_usuario = htmlspecialchars(strip_tags($this->id_usuario));
+        $this->id = htmlspecialchars(strip_tags($this->id));
 
         //bind values
         $stmt->bindParam(":titulo", $this->titulo);
@@ -135,8 +138,6 @@ class Proyecto{
         $stmt->bindParam(":fundamento", $this->fundamento);
         $stmt->bindParam(":beneficio", $this->beneficio);
         $stmt->bindParam(":departamento", $this->departamento);
-        $stmt->bindParam(":estado", $this->estado);
-        $stmt->bindParam(":fecha_creacion", $this->fecha_creacion);
         $stmt->bindParam(":id_categoria", $this->id_categoria);
         $stmt->bindParam(":id_usuario", $this->id_usuario);
         $stmt->bindParam(":id", $this->id);

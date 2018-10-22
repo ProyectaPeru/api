@@ -24,14 +24,14 @@ $usuario->getById();
 if($usuario->username!=null){
     //create array
     $usuario_arr = array(
-        "id" => $id,
-        "username" => $username,
-        "password" => $password,
-        "estado" => $estado,
-        "valor_estado" => $valor_estado,
-        "fecha_creacion" => $fecha_creacion,
-        "id_perfil" => $id_perfil,
-        "nombre_perfil" => $nombre_perfil
+        "id" => $usuario->id,
+        "username" => $usuario->username,
+        "password" => $usuario->password,
+        "estado" => $usuario->estado,
+        "valor_estado" => $usuario->valor_estado,
+        "fecha_creacion" => $usuario->fecha_creacion,
+        "id_perfil" => $usuario->id_perfil,
+        "nombre_perfil" => $usuario->nombre_perfil
     );
 
     //set response code -200 OK

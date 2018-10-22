@@ -24,18 +24,19 @@ $proyecto->getById();
 if($proyecto->titulo!=null){
     //create array
     $proyecto_arr = array(
-        "id" => $id,
-        "titulo" => $titulo,
-        "objeto" => $objeto,
-        "fundamento" => $fundamento,
-        "beneficio" => $beneficio,
-        "departamento" => $departamento,
-        "estado" => $estado,
-        "valor_estado" => $valor_estado,
-        "fecha_creacion" => $fecha_creacion,
-        "id_categoria" => $id_categoria,
-        "nombre_categoria" => $nombre_categoria,
-        "id_usuario" => $id_usuario
+        "id" => $proyecto->id,
+        "titulo" => $proyecto->titulo,
+        "objeto" => $proyecto->objeto,
+        "fundamento" => $proyecto->fundamento,
+        "beneficio" => $proyecto->beneficio,
+        "departamento" => $proyecto->departamento,
+        "estado" => $proyecto->estado,
+        "valor_estado" => $proyecto->valor_estado,
+        "fecha_creacion" => $proyecto->fecha_creacion,
+        "id_categoria" => $proyecto->id_categoria,
+        "nombre_categoria" => $proyecto->nombre_categoria,
+        "id_usuario" => $proyecto->id_usuario,
+        "username_usuario" => $proyecto->username_usuario
     );
 
     //set response code -200 OK

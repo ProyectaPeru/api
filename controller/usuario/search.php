@@ -14,7 +14,7 @@ $db = $database->getConnection();
 $usuario = new Usuario($db);
 
 //get keywords
-$keywords = isset($_GET['s']?$_GET['s']:"");
+$keywords = isset($_GET['s'])?$_GET['s']:"";
 
 //query users
 $stmt = $usuario->search($keywords);

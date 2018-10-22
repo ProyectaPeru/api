@@ -24,18 +24,18 @@ $usuario->password = sha1($data->password);
 
 $usuario->login();
 
-if($usuario->username!=null){
+if($usuario->id!=null){
     //create array
     $usuario_arr = array(
-        "id" => $id,
-        "username" => $username,
-        "estado" => $estado,
-        "fecha_creacion" => $fecha_creacion,
-        "id_perfil" => $id_perfil,
-        "nombre_perfil" => $nombre_perfil
+        "id" => $usuario->id,
+        "username" => $usuario->username,
+        "estado" => $usuario->estado,
+        "fecha_creacion" => $usuario->fecha_creacion,
+        "id_perfil" => $usuario->id_perfil,
+        "nombre_perfil" => $usuario->nombre_perfil
     );
 
-    if($usuario->username == 1){
+    if($usuario->estado == 1){
         //set response code -200 OK
         http_response_code(200);
 

@@ -69,7 +69,7 @@ class Usuario{
         //query to read single user
         $query = "SELECT u.id, u.username, u.password, u.estado, (CASE u.estado WHEN '1' THEN 'ACTIVO' WHEN '0' THEN 'INACTIVO' END)
         AS valor_estado, u.fecha_creacion, p.id AS id_perfil, p.nombre AS nombre_perfil FROM ". $this->table_name ." u
-        INNER JOIN perfil p ON u.id_perfil = p.id ORDER AND u.id = ? LIMIT 0,1";
+        INNER JOIN perfil p ON u.id_perfil = p.id AND u.id=? LIMIT 0,1";
 
         //prepare query statement
         $stmt = $this->conn->prepare($query);
@@ -148,7 +148,7 @@ class Usuario{
     function login(){
         //query to read single user
         $query = "SELECT u.id, u.username, u.fecha_creacion, u.estado, p.id AS id_perfil, p.nombre AS nombre_perfil FROM ". $this->table_name ." u
-        INNER JOIN perfil p ON u.id_perfil = p.id ORDER AND u.username = ? AND u.password = ? LIMIT 0,1";
+        INNER JOIN perfil p ON u.id_perfil = p.id AND u.username = ? AND u.password = ? LIMIT 0,1";
 
         //prepare query statement
         $stmt = $this->conn->prepare($query);

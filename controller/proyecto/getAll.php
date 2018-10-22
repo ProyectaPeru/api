@@ -46,10 +46,11 @@ if($num > 0){
             "fecha_creacion" => $fecha_creacion,
             "id_categoria" => $id_categoria,
             "nombre_categoria" => $nombre_categoria,
-            "id_usuario" => $id_usuario
+            "id_usuario" => $id_usuario,
+            "username_usuario" => $username_usuario
         );
 
-        array_push($proyectp_arr['projects'], $proyecto_item);
+        array_push($proyecto_arr['projects'], $proyecto_item);
     }
 
     //set response_code - 200 OK
