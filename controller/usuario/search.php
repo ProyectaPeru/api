@@ -3,24 +3,25 @@
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 
-//include database and object files
+//get database connection
+include_once '../../config/core.php';
 include_once '../../config/database.php';
 include_once '../../model/usuario.php';
 
-//instantiate database and product object
 $database = new Database();
 $db = $database->getConnection();
 
-//initialize object
 $usuario = new Usuario($db);
 
-//query usuarios
-$stmt = $usuario->getAll();
+//get keywords
+$keywords = isset($_GET['s']?$_GET['s']:"");
+
+//query users
+$stmt = $usuario->search($keywords);
 $num = $stmt->rowCount();
 
-//Check if more tha 0 users found
-if($num > 0){
-
+//check if more than 0 uer found
+if($num>0){
     //User Array
     $usuario_arr = array();
     $usuario_arr["users"] = array();
@@ -48,18 +49,16 @@ if($num > 0){
         array_push($usuario_arr['users'], $usuario_item);
     }
 
-    //set response_code - 200 OK
+    //set response code 200 - OK
     http_response_code(200);
 
-    //show usuarios data in jon format
+    //show users data
     echo json_encode($usuario_arr);
 }else{
-    //set response code - 404 not found
+    //set response code - 404 Not found
     http_response_code(404);
 
     //tell the user no users found
-    echo json_encode(
-        array("message" => "No user found.")
-    );
+    echo json_encode(array("message" => "No users found."));
 }
 ?>
